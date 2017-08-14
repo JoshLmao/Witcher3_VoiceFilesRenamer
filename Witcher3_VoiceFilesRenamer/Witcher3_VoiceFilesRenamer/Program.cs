@@ -77,7 +77,7 @@ namespace NameAllWitcherFiles
                 string voiceLineName = data.VoiceLineFileName;
                 string characterFolderName = data.Character;
 
-                string extension = ".wav.ogg";
+                string extension = GetExtensionFromPathWithout(originalFilesPath, originalName);
                 string voiceLinePath = $"{originalFilesPath}\\{originalName}{extension}";
                 if (File.Exists(voiceLinePath))
                 {
@@ -102,18 +102,24 @@ namespace NameAllWitcherFiles
                     try
                     {
                         File.Move(voiceLinePath, actualPath);
+                        Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine($"Created Voice Line file \"{voiceLineName}\"");
+                        Console.ForegroundColor = ConsoleColor.White;
                     }
                     catch (Exception e)
                     {
+                        Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine($"Error saving {actualPath}");
+                        Console.ForegroundColor = ConsoleColor.White;
                     }
 
                     CreatedData.Add(data);
                 }
                 else
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine($"Can't find file {voiceLinePath}");
+                    Console.ForegroundColor = ConsoleColor.White;
                 }
             }
         }
@@ -243,6 +249,35 @@ namespace NameAllWitcherFiles
 
 
             return Path.Combine(newSaveLocation, cutDownName);
+        }
+
+        /// <summary>
+        /// Gets all the extension from the converted voice file
+        /// </summary>
+        /// <param name="folderPath"></param>
+        /// <param name="fileNameWithoutExt"></param>
+        /// <returns></returns>
+        static string GetExtensionFromPathWithout(string folderPath, string fileNameWithoutExt)
+        {
+            string[] allFiles = Directory.GetFiles(folderPath);
+
+            int firstFullStopIndex = -1;
+            string first = allFiles.First();
+            for (int i = 0; i < first.Length; i++)
+            {
+                if (first[i] == '.')
+                {
+                    firstFullStopIndex = i;
+                    break;
+                }
+            }
+
+            string fullExt = "";
+            for (int i = firstFullStopIndex; i < first.Length; i++)
+            {
+                fullExt += first[i];
+            }
+            return fullExt;
         }
     }
 }
