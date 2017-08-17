@@ -20,6 +20,8 @@ If you don't know how to convert it to a .csv, [here's the one I used](Witcher3_
 
 * The path to where you want the voice lines to be extracted to. Just the root folder, this program handles sorting into folders by characters names
 
+* An example of the full command you need to run: Witcher3_VoiceFilesRenamer.exe "C:\Databasefile.csv" "C:\Witcher3_VoiceLines\" "C:\SortedVoiceLines\"
+
 **4:** Run & wait
 
 
